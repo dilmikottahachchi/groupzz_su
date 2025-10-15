@@ -29,5 +29,13 @@ jobs:
         - name: Train model (smoke test)
           run: python src/train.py --smoke-test
         
+        - name: Upload model and metrics as artifacts
+          uses: actions/upload-artifact@v4
+          with:
+            name: model-artifacts
+            path: |
+              model/
+              metrics.json
+
 
     
