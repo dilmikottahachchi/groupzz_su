@@ -2,12 +2,62 @@
 ## Project Overview
 A machine learning service as part of the MAIO course that helps predict diabetes progression to determind it the patients need follow-up care.
 
-
 ## Getting Started
-1. Clone the repository
+### Build and Train Locally
+```bash
+python src/train.py
+```
 
+### Run API locally
+```bash
+fastapi dev .\src\main.py
+```
 
-# API Endpoints
+## API Definition
+### Predict
+POST `/predict`
 
+```json
+{
+  "age": 0.02,
+  "sex": -0.044,
+  "bmi": 0.06,
+  "bp": -0.03,
+  "s1": -0.02,
+  "s2": 0.03,
+  "s3": -0.02,
+  "s4": 0.02,
+  "s5": 0.02,
+  "s6": -0.001
+}
+```
 
-# Next Steps
+Returns:
+
+```json
+{ "prediction": <float> }
+```
+
+### Health check
+
+GET `/health`
+
+Returns:
+
+```json
+{ "status": "ok", "model_version": "v0.1" }
+```
+
+### Docker
+
+Build:
+
+```bash
+docker build -t diabetes-triage-ml:v0.1 .
+```
+
+Run:
+
+```bash
+docker run -p 8000:8000 diabetes-triage-ml:v0.1
+```
