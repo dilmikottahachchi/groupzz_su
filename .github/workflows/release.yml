@@ -27,7 +27,6 @@ jobs:
         - name: Build docker image
           run: docker build -t ghcr.io/${{ github.repository }}:${{ github.ref_name }} .
 
-
         - name: Login to GHCR
           uses: docker/login-action@v3
           with: 
@@ -38,13 +37,10 @@ jobs:
         - name: Push image
           run: docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
 
-        - name: Publih release
+        - name: Publish release
           uses: softprops/action-gh-release@v2
           with:
-            body: |
-              ## Metrics
-              ```
-              $(cat model/metrics.json)
-              ```
-              ## Changelog
-              $(cat CHANGELOG.md)
+            files: |
+              model/metrics.json
+              CHANGELOG.md
+            generate_release_notes: true
