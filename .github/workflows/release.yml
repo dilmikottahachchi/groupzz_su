@@ -25,11 +25,11 @@ jobs:
           run: python src/train.py
 
         - name: Build docker image
-          run: docker build -t ghcr.io/groupzz_su:${{ github.ref_name }} .
+          run: docker build -t ghcr.io/${{ github.repository }}:${{ github.ref_name }} .
 
         - name: Smoke test
           run:  |
-            docker run -d -p 8000:8000 --name triage ghcr.io/groupzz_su:${{ github.ref_name }}
+            docker run -d -p 8000:8000 --name triage ghcr.io/${{ github.repository }}:${{ github.ref_name }}
             sleep 5
             curl -f http://localhost:8000/health
             curl -f -X POST http://localhost:8000/predict \
@@ -46,7 +46,7 @@ jobs:
         - name: Push image
           run: docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
 
-        - name: Publish release
+        - name: Publih release
           uses: softprops/action-gh-release@v2
           with:
             body: |
