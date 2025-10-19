@@ -1,51 +1,41 @@
 from sklearn.datasets import load_diabetes
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, r2_score
 import joblib
 import json
-import os
 import numpy as np
 
-# Train the model here
-SEED = 42
-
-# Load the diabetes dataset
+# load data
 Xy = load_diabetes(as_frame=True)
 X = Xy.frame.drop(columns=["target"])
-y = Xy.frame["target"] # acts as a "progression index" (higher = worse)
+y = Xy.frame["target"]
 
-print(y)
+# split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
-# splitting the data for training and testing the model
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=SEED)
+# scale features
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
 
-# Standardizing the data
-scalar = StandardScaler()
-X_train_scaled = scalar.fit_transform(X_train)
-X_test_scaled = scalar.transform(X_test)
-
-# Training the model
+# training model
 model = LinearRegression()
 model.fit(X_train_scaled, y_train)
 
-# Testing the model
+# make predictions
 y_pred = model.predict(X_test_scaled)
-rmse = np.sqrt(mean_squared_error(y_test, y_pred))
 
-# Save the artifacts
-os.makedirs("model", exist_ok=True)
-joblib.dump(scalar, "model/scaler.joblib")
-joblib.dump(model, "model/model.joblib")
-
-# Save metrics of model performance and versioning
+# calculate metrics
 metrics = {
-    "rmse": rmse,
-    "model_version": "v0.1"
+    "rmse": mean_squared_error(y_test, y_pred, squared=False),
+    "r2": r2_score(y_test, y_pred)
 }
 
+# save artifacts
+joblib.dump(scaler, "model/scaler.joblib")
+joblib.dump(model, "model/model.joblib")
 with open("model/metrics.json", "w") as f:
-    json.dump(metrics, f)
+    json.dump(metrics, f, indent=2)
 
