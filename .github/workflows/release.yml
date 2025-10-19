@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      -'v*'
+      - 'v*'
 
 jobs:
   build-release:
@@ -56,5 +56,3 @@ jobs:
               ```
               ## Changelog
               $(cat CHANGELOG.md)
-
-        
