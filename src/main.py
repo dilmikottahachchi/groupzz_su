@@ -28,12 +28,11 @@ class PredictRequest(BaseModel):
     s6: float
 
 # Health check endpoint
-# TODO: get model version from metrics.json
 @app.get("/health")
 async def health_check():
     return {
         "status": "ok",
-        "model_version": "0.1.0"
+        "model_version": "v0.1"
     }
 
 # To predict if the patient needed follow ups

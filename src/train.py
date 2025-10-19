@@ -43,7 +43,7 @@ joblib.dump(model, "model/model.joblib")
 # Save metrics of model performance and versioning
 metrics = {
     "rmse": rmse,
-    "model_version": "0.1.0"
+    "model_version": "v0.1"
 }
 
 with open("model/metrics.json", "w") as f:
