@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from sklearn.datasets import load_diabetes
 import joblib
 import json
 import numpy as np
@@ -35,6 +34,7 @@ async def health_check():
         "model_version": "v0.1"
     }
 
+
 # To predict if the patient needed follow ups
 @app.post("/predict")
 async def predict(input: PredictRequest):
@@ -45,3 +45,4 @@ async def predict(input: PredictRequest):
         return {"prediction": float(pred)}
     except Exception as e:
         return {"status": "error", "details": str(e)}
+        

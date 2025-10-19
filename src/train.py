@@ -19,7 +19,8 @@ y = Xy.frame["target"] # acts as a "progression index" (higher = worse)
 print(y)
 
 # splitting the data for training and testing the model
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=SEED)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=SEED)
 
 # Standardizing the data
 scalar = StandardScaler()
@@ -38,7 +39,6 @@ rmse = np.sqrt(mean_squared_error(y_test, y_pred))
 os.makedirs("model", exist_ok=True)
 joblib.dump(scalar, "model/scaler.joblib")
 joblib.dump(model, "model/model.joblib")
-
 
 # Save metrics of model performance and versioning
 metrics = {
