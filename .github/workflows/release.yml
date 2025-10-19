@@ -42,4 +42,4 @@ jobs:
           with:
             files: |
               model/metrics.json
-              CHANGELOG.md
+            generate_release_notes: true
