@@ -5,7 +5,6 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 import joblib
 import json
-import numpy as np
 
 # load data
 Xy = load_diabetes(as_frame=True)
@@ -38,4 +37,3 @@ joblib.dump(scaler, "model/scaler.joblib")
 joblib.dump(model, "model/model.joblib")
 with open("model/metrics.json", "w") as f:
     json.dump(metrics, f, indent=2)
-
