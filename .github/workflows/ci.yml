@@ -29,8 +29,8 @@ jobs:
 
         - name: Test API
           run: |
-            pip install pytest httpx
-            pytest tests/test.py
+            pip install pytest
+            python -m pytest tests/test.py
         
         - name: Upload model and metrics as artifacts
           uses: actions/upload-artifact@v4
