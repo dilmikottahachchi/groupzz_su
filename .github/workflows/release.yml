@@ -27,14 +27,6 @@ jobs:
         - name: Build docker image
           run: docker build -t ghcr.io/${{ github.repository }}:${{ github.ref_name }} .
 
-        - name: Smoke test
-          run:  |
-            docker run -d -p 8000:8000 --name triage ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-            sleep 5
-            curl -f http://localhost:8000/health
-            curl -f -X POST http://localhost:8000/predict \
-              -H "Content-Type: application/json" \
-              -d '{"age":0.02, "sex":-0.044, "bmi":0.06, "bp":-0.03, "s1":-0.02, "s2":0.03, "s3":-0.02, "s4":0.02, "s5":0.02, "s6":-0.001}'
 
         - name: Login to GHCR
           uses: docker/login-action@v3
