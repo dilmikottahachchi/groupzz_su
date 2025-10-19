@@ -9,7 +9,7 @@ import json
 # load data
 Xy = load_diabetes(as_frame=True)
 X = Xy.frame.drop(columns=["target"])
-y = Xy.frame["target"]
+y = Xy.frame["target"] # acts as a "progression index" (higher = worse)
 
 # split data
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
@@ -28,7 +28,7 @@ y_pred = model.predict(X_test_scaled)
 
 # calculate metrics
 metrics = {
-    "rmse": mean_squared_error(y_test, y_pred, squared=False),
+    "rmse": mean_squared_error(y_test, y_pred) ** 0.5,  # Calculate RMSE manually
     "r2": r2_score(y_test, y_pred)
 }
 

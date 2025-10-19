@@ -5,4 +5,4 @@
 - API Endpoints: `/predict`, `/health`
 - Docker image is self-contained and reproducible
 - CI/CD: Include testing, linting, uploading metrics, release workflow
-- Metric (RMSE, test set): 52.34
+- Metric (RMSE, test set): 53.36

@@ -24,7 +24,7 @@ jobs:
         - name: Lint code
           run: pip install flake8 && flake8 src/ model/
 
-        - name: Train model (smoke test)
+        - name: Train model
           run: python src/train.py
 
         - name: Test API

@@ -18,18 +18,9 @@ fastapi dev .\src\main.py
 POST `/predict`
 
 ```json
-{
-  "age": 0.02,
-  "sex": -0.044,
-  "bmi": 0.06,
-  "bp": -0.03,
-  "s1": -0.02,
-  "s2": 0.03,
-  "s3": -0.02,
-  "s4": 0.02,
-  "s5": 0.02,
-  "s6": -0.001
-}
+curl --location --request POST 'http://127.0.0.1:8000/predict' \
+--header 'Content-Type: application/json' \
+--data-raw '{"age": 0.02, "sex": -0.044, "bmi": 0.06, "bp": -0.03, "s1": -0.02, "s2": 0.03, "s3": -0.02, "s4": 0.02, "s5": 0.02, "s6": -0.001}'
 ```
 
 Returns:
@@ -41,6 +32,11 @@ Returns:
 ### Health check
 
 GET `/health`
+
+```json
+curl --location --request GET 'http://127.0.0.1:8000/health' \
+--header 'Content-Type: application/json'
+```
 
 Returns:
 
