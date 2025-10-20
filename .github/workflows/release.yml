@@ -37,9 +37,38 @@ jobs:
         - name: Push image
           run: docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
 
+        - name: Read Metrics
+          id: metrics
+          run: |
+            content=`cat model/metrics.json`
+            echo "metrics=$content" >> $GITHUB_OUTPUT
+
+        - name: Read Changelog
+          id: changelog
+          run: |
+            content=`cat CHANGELOG.md`
+            echo "changelog<<EOF" >> $GITHUB_OUTPUT
+            echo "$content" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+
         - name: Publish release
           uses: softprops/action-gh-release@v2
+          env:
+            METRICS: ${{ fromJson(steps.metrics.outputs.metrics) }}
           with:
             files: |
               model/metrics.json
             generate_release_notes: true
+            body: |
+              # Release ${{ github.ref_name }}
+
+              ## Model Performance
+              - RMSE (Test Set): ${{ env.METRICS.rmse }}
+              - R² Score: ${{ env.METRICS.r2 }}
+
+              ## Changelog
+              ${{ steps.changelog.outputs.changelog }}
+
+              ## Technical Details
+              - Python 3.11
+              - Docker image available at: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
