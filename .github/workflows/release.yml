@@ -39,21 +39,17 @@ jobs:
 
         - name: Read Metrics
           id: metrics
+          shell: bash
           run: |
-            METRICS_JSON=$(cat model/metrics.json)
-            # Escape the JSON content
-            METRICS_JSON="${METRICS_JSON//'%'/'%25'}"
-            METRICS_JSON="${METRICS_JSON//$'\n'/'%0A'}"
-            METRICS_JSON="${METRICS_JSON//$'\r'/'%0D'}"
-            echo "metrics=${METRICS_JSON}" >> $GITHUB_OUTPUT
+            METRICS=$(jq -c . model/metrics.json)
+            echo "metrics=$METRICS" >> $GITHUB_OUTPUT
 
         - name: Read Changelog
           id: changelog
+          shell: bash
           run: |
-            CHANGELOG=$(cat CHANGELOG.md)
-            # Use heredoc syntax for multiline content
             echo "changelog<<EOF" >> $GITHUB_OUTPUT
-            echo "$CHANGELOG" >> $GITHUB_OUTPUT
+            cat CHANGELOG.md >> $GITHUB_OUTPUT
             echo "EOF" >> $GITHUB_OUTPUT
 
         - name: Publish release
@@ -74,5 +70,4 @@ jobs:
 
               ## Technical Details
               - Python 3.11
-
-              - Docker image available at: ghcr.io/${{ github.repository }}:${{ github.ref_name }}              - Docker image available at: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+              - Docker image available at: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
