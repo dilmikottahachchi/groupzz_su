@@ -48,9 +48,10 @@ jobs:
           id: changelog
           shell: bash
           run: |
-            echo "changelog<<EOF" >> $GITHUB_OUTPUT
+            delimiter="CHANGELOG_EOF"
+            echo "changelog<<$delimiter" >> $GITHUB_OUTPUT
             cat CHANGELOG.md >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
+            echo "$delimiter" >> $GITHUB_OUTPUT
 
         - name: Publish release
           uses: softprops/action-gh-release@v2
